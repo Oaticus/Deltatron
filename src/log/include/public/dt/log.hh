@@ -1,13 +1,9 @@
 #pragma once
 
 #include <dt/log/level.hh>
-
-#include <dt/cmd.hh>
 #include <dt/fs.hh>
 
 #include <string>
-
-#include <fstream>
 
 namespace dt {
 
