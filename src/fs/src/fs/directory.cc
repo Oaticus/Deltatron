@@ -12,26 +12,20 @@ dt::directory::directory(std::string const directory_name, directory const* pare
 std::string const& dt::directory::name() const noexcept { return _name; }
 
 dt::directory const& dt::directory::mkdir(std::string const& directory_name) const {
-  if (stdfs::path p(_name); !stdfs::exists(p /= directory_name)) {
+  if (stdfs::path p(_name); !stdfs::exists(p /= directory_name))
     stdfs::create_directory(p);
 
-  } else if (!stdfs::is_directory(p)) {
-    throw fs_error(std::string("file entity already bound to directory name (") + p.string() + ")");
-
-  }
+  else if (!stdfs::is_directory(p))
+    throw fs_error(std::string("file entity already bound to directory name (\"") + p.string() + "\")");
 
   return *this;
 }
 
-std::string dt::directory::path_str() const noexcept { _name; }
-
 dt::directory dt::directory::cd(std::string const& directory_name) const {
-  using namespace std::string_literals;
-
   if (stdfs::path const p(_name); stdfs::exists(p) && stdfs::is_directory(p))
     return directory(directory_name, this);
 
-  throw fs_error("attempting to cd into non-existing directory (\""s + directory_name + "\")");
+  throw fs_error(std::string("attempting to cd into non-existing directory (\"") + directory_name + "\")");
 }
 
 dt::file dt::directory::load_file(std::string const& name, std::string const& default_data) const {
