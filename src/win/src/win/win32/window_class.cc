@@ -5,23 +5,23 @@
 #include <Windows.h>
 
 dt::win32_window_class::win32_window_class(HINSTANCE const instance) noexcept
-: _name((wchar_t const*)"Deltatron Window Class"),
-  _class(_create_class(instance))
+: _window_class_name((wchar_t const*)"Deltatron Window Class"),
+  _window_class(_create_window_class(instance))
 {
-  RegisterClassExW(&_class);
+  RegisterClassExW(&_window_class);
 }
 
 dt::win32_window_class::~win32_window_class() noexcept {}
 
-wchar_t const* dt::win32_window_class::name() const noexcept { return _name.c_str(); }
+wchar_t const* dt::win32_window_class::name() const noexcept { return _window_class_name.c_str(); }
 
-WNDCLASSEXW dt::win32_window_class::_create_class(HINSTANCE const instance) const noexcept {
-  WNDCLASSEXW window_class{};
+WNDCLASSEXW dt::win32_window_class::_create_window_class(HINSTANCE const instance) const noexcept {
+  WNDCLASSEXW window_window_class{};
 
-  window_class.cbSize        = sizeof(window_class);
-  window_class.lpfnWndProc   = _dt_win32_callback;
-  window_class.hInstance     = instance;
-  window_class.lpszClassName = _name.c_str();
+  window_window_class.cbSize        = sizeof(window_window_class);
+  window_window_class.lpfnWndProc   = _dt_win32_callback;
+  window_window_class.hInstance     = instance;
+  window_window_class.lpszClassName = _window_class_name.c_str();
 
-  return window_class;
+  return window_window_class;
 }

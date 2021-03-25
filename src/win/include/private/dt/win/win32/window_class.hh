@@ -9,8 +9,8 @@
 namespace dt {
 
 class win32_window_class final {
-  std::wstring const _name;
-  WNDCLASSEXW  const _class;
+  std::wstring const _window_class_name;
+  WNDCLASSEXW  const _window_class;
 
 public:
   win32_window_class(HINSTANCE const instance) noexcept;
@@ -20,7 +20,7 @@ public:
   wchar_t const* name() const noexcept;
 
 private:
-  WNDCLASSEXW _create_class(HINSTANCE const instance) const noexcept;
+  WNDCLASSEXW _create_window_class(HINSTANCE const instance) const noexcept;
 };
 
 }
