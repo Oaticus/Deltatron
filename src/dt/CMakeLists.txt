@@ -4,7 +4,8 @@ target_link_libraries(deltatron
   PRIVATE
     buildinfo
     cmd
-    fs)
+    fs
+    win)
 
 target_include_directories(deltatron
   PRIVATE
