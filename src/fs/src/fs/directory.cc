@@ -9,8 +9,6 @@ dt::directory::directory(std::string const directory_name, directory const* pare
 : _name(directory_name),
   _parent(parent) {}
 
-std::string const& dt::directory::name() const noexcept { return _name; }
-
 dt::directory const& dt::directory::mkdir(std::string const& directory_name) const {
   if (stdfs::path p(_name); !stdfs::exists(p /= directory_name))
     stdfs::create_directory(p);

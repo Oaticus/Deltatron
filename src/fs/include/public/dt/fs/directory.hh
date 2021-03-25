@@ -15,9 +15,7 @@ class directory final {
   directory   const* _parent;
 
 public:
-  constexpr std::string const& path_str() const noexcept { return _name; }
-
-  std::string const& name() const noexcept;
+  constexpr std::string const& name() const noexcept { return _name; }
 
   directory const& mkdir(std::string const& directory_name) const;
 
