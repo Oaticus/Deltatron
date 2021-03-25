@@ -4,9 +4,7 @@ target_link_libraries(deltatron
   PRIVATE
     buildinfo
     cmd
-    fs
-    json
-    render)
+    fs)
 
 target_include_directories(deltatron
   PRIVATE
