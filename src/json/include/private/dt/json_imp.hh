@@ -9,10 +9,10 @@
 namespace dt {
 
 class json_imp final {
-  std::string    	   const _id;
-  std::string        const _text_data;
-  token::stream_type const _stream;
-  json_container_imp const _root_container;
+  std::string    	   const  _id;
+  std::string        const& _text_data;
+  token::stream_type const  _stream;
+  json_container_imp const  _root_container;
 
 public:
   json_imp(std::string const& id, std::string const& text_data)

@@ -3,54 +3,50 @@
 #include <dt/fs_imp.hh>
 
 #include <fstream>
+#include <optional>
 #include <string>
 
-dt::directory::directory(std::string const directory_name, directory const* parent)
-: _name(directory_name),
-  _parent(parent) {}
+dt::directory::directory(std::string const& directory_path) noexcept
+: _path_str(directory_path) {}
 
-dt::directory const& dt::directory::mkdir(std::string const& directory_name) const {
-  if (stdfs::path p(_name); !stdfs::exists(p /= directory_name))
-    stdfs::create_directory(p);
-
-  else if (!stdfs::is_directory(p))
-    throw fs_error(std::string("file entity already bound to directory name (\"") + p.string() + "\")");
-
-  return *this;
-}
+dt::directory::~directory() noexcept {}
 
 dt::directory dt::directory::cd(std::string const& directory_name) const {
-  if (stdfs::path const p(_name); stdfs::exists(p) && stdfs::is_directory(p))
-    return directory(directory_name, this);
+  if (stdfs::path const p(_path_str); stdfs::exists(p) && stdfs::is_directory(p))
+    return directory(directory_name);
 
-  throw fs_error(std::string("attempting to cd into non-existing directory (\"") + directory_name + "\")");
+  else if (!stdfs::exists(p))
+    return stdfs::create_directory(p), directory(directory_name);
+
+  else
+    throw fs_error(std::string("file entity already bound to directory name (\"") + p.string() + "\")");
 }
 
-dt::file dt::directory::load_file(std::string const& name, std::string const& default_data) const {
-  auto const p = stdfs::path(_name) / name;
+dt::file dt::directory::load_file(std::string const& file_name, std::string const& default_data) const {
+  auto const p = stdfs::path(_path_str) / file_name;
 
   if (!stdfs::exists(p))
-    write_file(name, default_data);
+    write_file(file_name, default_data);
 
-  auto istrm = std::ifstream(p, std::ios::binary | std::ios::ate);
-  auto fdata = std::string(static_cast<std::string::size_type>(istrm.tellg()), '\0');
+  auto in_stream = std::ifstream(p, std::ios::binary | std::ios::ate);
+  auto file_data = std::string(static_cast<std::string::size_type>(in_stream.tellg()), '\0');
 
-  istrm.seekg(0);
-  istrm.read(fdata.data(), fdata.size());
+  in_stream.seekg(0);
+  in_stream.read(file_data.data(), file_data.size());
 
-  return file(name, fdata);
+  return file(file_name, file_data);
 }
 
-dt::directory const& dt::directory::write_file(std::string const& name, std::string const& fdata) const {
-  if (std::ofstream ostrm(stdfs::path(_name) /= name, std::ios::binary | std::ios::trunc); ostrm.is_open())
-    ostrm.write(fdata.data(), fdata.size());
+dt::directory const& dt::directory::write_file(std::string const& file_name, std::string const& file_data) const {
+  if (std::ofstream ostrm(stdfs::path(_path_str) /= file_name, std::ios::binary | std::ios::trunc); ostrm.is_open())
+    ostrm.write(file_data.data(), file_data.size());
 
   return *this;
 }
 
-dt::directory const& dt::directory::append_file(std::string const& name, std::string const& appdata) const {
-  if (std::ofstream ostrm(stdfs::path(_name) /= name, std::ios::binary | std::ios::ate); ostrm.is_open())
-    ostrm.write(appdata.data(), appdata.size());
+dt::directory const& dt::directory::append_file(std::string const& file_name, std::string const& file_data) const {
+  if (std::ofstream ostrm(stdfs::path(_path_str) /= file_name, std::ios::binary | std::ios::ate); ostrm.is_open())
+    ostrm << file_data;
 
   return *this;
 }

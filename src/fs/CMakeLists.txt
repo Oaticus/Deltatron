@@ -3,7 +3,6 @@ add_library("fs")
 target_link_libraries(fs
   PRIVATE
     buildinfo
-  PUBLIC
     cmd)
 
 target_include_directories(fs

@@ -2,15 +2,8 @@
 
 dt::deltatron::deltatron(int const ac, char const* const* const av, char const* const* const ep)
 : _cmd(ac, av, ep),
-  _fs(_cmd),
-  _win(_cmd, _fs) {}
+  _fs(_cmd) {}
 
 dt::deltatron::~deltatron() noexcept {}
 
-void dt::deltatron::run() const {
-
-  _win.show();
-
-  _win.loop();
-
-}
+void dt::deltatron::run() const {}

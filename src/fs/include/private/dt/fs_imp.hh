@@ -10,7 +10,7 @@ namespace dt {
 namespace stdfs = std::filesystem;
 
 class fs_imp final {
-  stdfs::path _root;
+  stdfs::path const _root;
 
 public:
   fs_imp(cmd const& c) noexcept;

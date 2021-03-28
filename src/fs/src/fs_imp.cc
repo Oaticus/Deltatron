@@ -27,4 +27,4 @@ dt::fs_imp::fs_imp(cmd const& c) noexcept
   }
 
 dt::directory dt::fs_imp::root() const noexcept
-{ return dt::directory(_root.string(), nullptr); }
+{ return dt::directory(_root.string()); }

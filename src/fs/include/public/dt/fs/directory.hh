@@ -2,6 +2,7 @@
 
 #include <dt/fs/directory/file.hh>
 
+#include <optional>
 #include <string>
 
 namespace dt {
@@ -11,11 +12,10 @@ class fs_imp;
 class directory final {
   friend class fs_imp;
 
-  std::string        _name;
-  directory   const* _parent;
+  std::string const _path_str;
 
 public:
-  constexpr std::string const& name() const noexcept { return _name; }
+  ~directory() noexcept;
 
   directory const& mkdir(std::string const& directory_name) const;
 
@@ -28,7 +28,7 @@ public:
   directory const& append_file(std::string const& file_name, std::string const& app_data = "") const;
 
 private:
-  directory(std::string directory_name, directory const* parent_directory);
+  directory(std::string const& directory_path) noexcept;
 };
 
 }
