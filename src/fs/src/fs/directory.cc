@@ -12,11 +12,11 @@ dt::directory::directory(std::string const& directory_path) noexcept
 dt::directory::~directory() noexcept {}
 
 dt::directory dt::directory::cd(std::string const& directory_name) const {
-  if (stdfs::path const p(_path_str); stdfs::exists(p) && stdfs::is_directory(p))
-    return directory(directory_name);
+  if (auto const p = stdfs::path(_path_str) /= directory_name; stdfs::exists(p) && stdfs::is_directory(p))
+    return directory(p.string());
 
   else if (!stdfs::exists(p))
-    return stdfs::create_directory(p), directory(directory_name);
+    return stdfs::create_directory(p), directory(p.string());
 
   else
     throw fs_error(std::string("file entity already bound to directory name (\"") + p.string() + "\")");
