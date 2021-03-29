@@ -19,7 +19,7 @@ HWND dt::win32_window_handle::_create_window_handle(
 {
   auto window_handle = HWND{};
 
-  window_handle = CreateWindowExW(0, window_class_name.c_str(), L"Deltatron", WS_OVERLAPPEDWINDOW,
+  window_handle = CreateWindowExW(0, window_class_name.c_str(), _window_name.c_str(), WS_OVERLAPPEDWINDOW,
     CW_USEDEFAULT, CW_USEDEFAULT, window_config.window_width(), window_config.window_height(), nullptr, nullptr,
     program_instance, nullptr);
 
