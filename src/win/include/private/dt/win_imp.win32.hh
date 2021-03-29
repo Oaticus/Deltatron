@@ -17,23 +17,26 @@ class win_imp final {
   win_config                   _config;
   win32_program_instance const _program_instance;
   win32_window_class     const _window_class;
-  win32_window_handle    const _window_handle;
 
 public:
   win_imp(cmd const& c, fs const& f)
   : _config(c, f),
     _program_instance(),
-    _window_class(_program_instance.program_instance()),
-    _window_handle(_config, _window_class.window_class_name(), _program_instance.program_instance())
-  {
-    ShowWindow(_window_handle.window_handle(), SW_SHOWNORMAL);
-  }
+    _window_class(_program_instance.program_instance()) {}
 
-  ~win_imp() noexcept { ShowWindow(_window_handle.window_handle(), SW_HIDE); }
+  ~win_imp() noexcept {}
 
-  void begin_processing() const noexcept {
+  void run() const noexcept {
+    RegisterClassExW(&_window_class.window_class());
+
+    auto const window_handle = win32_window_handle(_config, _window_class.window_class_name(), _program_instance.program_instance());
+
+    ShowWindow(window_handle.window_handle(), SW_SHOWNORMAL);
+
     for (MSG message{}; GetMessage(&message, nullptr, 0, 0); DispatchMessage(&message))
       TranslateMessage(&message);
+
+    ShowWindow(window_handle.window_handle(), SW_HIDE);
   }
 };
 

@@ -17,7 +17,7 @@ public:
 
   ~win() noexcept;
 
-  void begin_processing() const noexcept;
+  void run() const noexcept;
 };
 
 }

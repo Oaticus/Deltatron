@@ -8,5 +8,5 @@ dt::win::win(cmd const& c, fs const& f)
 
 dt::win::~win() noexcept {}
 
-void dt::win::begin_processing() const noexcept
-{ _win->begin_processing(); }
+void dt::win::run() const noexcept
+{ _win->run(); }
