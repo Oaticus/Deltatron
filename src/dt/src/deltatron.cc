@@ -10,7 +10,5 @@ dt::deltatron::deltatron(int const ac, char const* const* const av, char const* 
 dt::deltatron::~deltatron() noexcept {}
 
 void dt::deltatron::run() const {
-  auto win_thread = std::thread([&] { _win.run(); });
-
-  win_thread.join();
+  std::thread([&] { _win.run(); }).join();
 }
