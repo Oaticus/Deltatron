@@ -16,6 +16,8 @@ public:
   win(cmd const&, fs const&);
 
   ~win() noexcept;
+
+  void begin_processing() const noexcept;
 };
 
 }

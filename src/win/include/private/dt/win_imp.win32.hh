@@ -30,6 +30,11 @@ public:
   }
 
   ~win_imp() noexcept { ShowWindow(_window_handle.window_handle(), SW_HIDE); }
+
+  void begin_processing() const noexcept {
+    for (MSG message{}; GetMessage(&message, nullptr, 0, 0); DispatchMessage(&message))
+      TranslateMessage(&message);
+  }
 };
 
 }
