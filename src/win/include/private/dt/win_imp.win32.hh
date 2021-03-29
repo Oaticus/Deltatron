@@ -24,12 +24,12 @@ public:
   : _config(c, f),
     _program_instance(),
     _window_class(_program_instance.program_instance()),
-    _window_handle(_config, _window_class.window_class_name(), _program_instance.program_instance()) {}
-
-  void show() const noexcept {
-    static bool first_call = false;
-    ShowWindow(_window_handle.window_handle(), first_call ? first_call = false, SW_SHOWNORMAL : SW_SHOW);
+    _window_handle(_config, _window_class.window_class_name(), _program_instance.program_instance())
+  {
+    ShowWindow(_window_handle.window_handle(), SW_SHOWNORMAL);
   }
+
+  ~win_imp() noexcept { ShowWindow(_window_handle.window_handle(), SW_HIDE); }
 };
 
 }
