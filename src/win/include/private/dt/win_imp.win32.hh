@@ -22,7 +22,11 @@ public:
   win_imp(cmd const& c, fs const& f)
   : _config(c, f),
     _program_instance(),
-    _window_class(_program_instance.program_instance()) {}
+    _window_class(_program_instance.program_instance())
+  {
+    if (!c.arg_passed(flag::display_console))
+      ShowWindow(GetConsoleWindow(), SW_HIDE);
+  }
 
   ~win_imp() noexcept {}
 

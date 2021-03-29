@@ -53,8 +53,7 @@ private:
     return std::map<flag, flaginfo>{
       std::pair<flag, flaginfo>(flag::help, flaginfo("--help", "-h", "Displays this help message")),
       std::pair<flag, flaginfo>(flag::version, flaginfo("--version", "-v", "Prints program version")),
-      std::pair<flag, flaginfo>(flag::print_gpu_info, flaginfo("--print-gpu-info", "", "Prints basic device info of chosen render target")),
-      { flag::print_vulkan_layers_supported, { "--print-vulkan-layer-support", "", "Prints a list of vulkan layers supported on your system" }}
+      std::pair<flag, flaginfo>(flag::display_console, flaginfo("--console", "", "Displays console window during program runtime"))
     };
   }
 
