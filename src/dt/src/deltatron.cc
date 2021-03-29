@@ -7,4 +7,8 @@ dt::deltatron::deltatron(int const ac, char const* const* const av, char const* 
 
 dt::deltatron::~deltatron() noexcept {}
 
-void dt::deltatron::run() const {}
+void dt::deltatron::run() const {
+
+  _win.begin_processing();
+
+}
