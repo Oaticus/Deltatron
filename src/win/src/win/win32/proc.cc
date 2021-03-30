@@ -2,9 +2,10 @@
 
 #include <Windows.h>
 
-void _dt_win32_do_paint(HWND const& window_handle) noexcept {
+static void _dt_win32_do_paint(HWND const& window_handle) noexcept {
   auto paint_struct = PAINTSTRUCT{};
   HDC device_handle = BeginPaint(window_handle, &paint_struct);
+
   FillRect(device_handle, &paint_struct.rcPaint, (HBRUSH)(COLOR_WINDOW+1));
   EndPaint(window_handle, &paint_struct);
 }

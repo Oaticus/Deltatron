@@ -24,17 +24,11 @@ target_sources(win
     "src/win/error.cc"
 
     $<$<PLATFORM_ID:Windows>:
-      "include/private/dt/win/win32/program_instance.hh"
-      "src/win/win32/program_instance.cc"
-
       "include/private/dt/win/win32/window_class.hh"
       "src/win/win32/window_class.cc"
 
       "include/private/dt/win/win32/proc.hh"
       "src/win/win32/proc.cc"
-
-      "include/private/dt/win/win32/window_handle.hh"
-      "src/win/win32/window_handle.cc"
 
       "include/private/dt/win_imp.win32.hh"
       "src/win.win32.cc"
