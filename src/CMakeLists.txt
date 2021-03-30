@@ -6,4 +6,6 @@ add_subdirectory("fs")
 
 add_subdirectory("win")
 
+add_subdirectory("render")
+
 add_subdirectory("dt")

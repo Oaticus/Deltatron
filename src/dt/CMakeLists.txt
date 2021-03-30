@@ -5,6 +5,7 @@ target_link_libraries(deltatron
     buildinfo
     cmd
     fs
+    render
     win)
 
 target_include_directories(deltatron
