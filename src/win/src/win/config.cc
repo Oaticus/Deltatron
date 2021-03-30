@@ -7,8 +7,7 @@
 
 
 dt::win_config::win_config(cmd const&, fs const& f)
-: _window_name("Deltatron"),
-  _window_is_fullscreen(false),
+: _window_is_fullscreen(false),
   _window_width(800),
   _window_height(600)
 {
@@ -17,9 +16,6 @@ dt::win_config::win_config(cmd const&, fs const& f)
   auto const config_data      = json(config_file.name(), config_file.data());
 
   if (auto const root = config_data.root(); root.is_object()) {
-    if (auto const name = root.string_at("name"); name)
-      _window_name = *name;
-
     if (auto const is_fullscreen = root.bool_at("fullscreen"); is_fullscreen)
       _window_is_fullscreen = *is_fullscreen;
 

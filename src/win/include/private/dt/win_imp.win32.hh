@@ -13,7 +13,7 @@
 namespace dt {
 
 class win_imp final {
-  win_config               _window_config;
+  win_config         const _window_config;
   HINSTANCE          const _program_instance;
   win32_window_class const _window_class;
   std::wstring       const _window_name;
@@ -31,7 +31,7 @@ public:
       ShowWindow(GetConsoleWindow(), SW_HIDE);
   }
 
-  ~win_imp() noexcept {}
+  constexpr HWND const& window_handle() const noexcept { return _window_handle; }
 
   void run() {
     RegisterClassExW(&_window_class.window_class());
