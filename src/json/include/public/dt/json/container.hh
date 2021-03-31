@@ -21,17 +21,15 @@ class json_container final {
 public:
 	~json_container() noexcept;
 
-	json_type type() const noexcept;
-
 	std::size_t size() const noexcept;
 
-	bool is_object() const noexcept;
-	bool is_array() const noexcept;
-	bool is_string() const noexcept;
+	bool is_object()  const noexcept;
+	bool is_array()   const noexcept;
+	bool is_string()  const noexcept;
 	bool is_integer() const noexcept;
-	bool is_float() const noexcept;
-	bool is_bool() const noexcept;
-	bool is_null() const noexcept;
+	bool is_float()   const noexcept;
+	bool is_bool()    const noexcept;
+	bool is_null()    const noexcept;
 
 	std::optional<std::string_view> string_view_at(std::string const& key) const noexcept;
 	std::optional<std::string_view> string_view_at(std::size_t const& idx) const noexcept;

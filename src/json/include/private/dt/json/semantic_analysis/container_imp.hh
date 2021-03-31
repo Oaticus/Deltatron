@@ -15,7 +15,7 @@ class json_container_imp;
 using object_type = std::map<std::string_view, json_container_imp>;
 using array_type  = std::vector<json_container_imp>;
 
-enum class container_type : std::uint8_t {
+enum class container_type : unsigned char {
 	Object, Array,
 	String, Integer, Float, Bool, Null
 };
@@ -37,20 +37,17 @@ public:
 	constexpr bool is_object() const noexcept { return std::holds_alternative<object_type>(_value); }
 	constexpr bool is_array()  const noexcept { return std::holds_alternative<array_type >(_value); }
 
-	constexpr bool is_value()  const noexcept
-	{ return std::holds_alternative<token::value_type>(_value) ? std::get<token::value_type>(_value).has_value() : false; }
-
   constexpr bool is_string_value() const noexcept
-	{ return is_value() ? std::holds_alternative<std::string_view>(*std::get<token::value_type>(_value)) : false; }
+	{ return _is_value() ? std::holds_alternative<std::string_view>(*std::get<token::value_type>(_value)) : false; }
 
   constexpr bool is_integer_value() const noexcept
-	{ return is_value() ? std::holds_alternative<int>(*std::get<token::value_type>(_value)) : false; }
+	{ return _is_value() ? std::holds_alternative<int>(*std::get<token::value_type>(_value)) : false; }
 
   constexpr bool is_float_value() const noexcept
-	{ return is_value() ? std::holds_alternative<float>(*std::get<token::value_type>(_value)) : false; }
+	{ return _is_value() ? std::holds_alternative<float>(*std::get<token::value_type>(_value)) : false; }
 
   constexpr bool is_bool_value() const noexcept
-	{ return is_value() ? std::holds_alternative<bool>(*std::get<token::value_type>(_value)) : false; }
+	{ return _is_value() ? std::holds_alternative<bool>(*std::get<token::value_type>(_value)) : false; }
 
 	constexpr bool is_null_value() const noexcept
 	{ return std::holds_alternative<token::value_type>(_value) && !std::get<token::value_type>(_value).has_value(); }
@@ -59,16 +56,6 @@ public:
 
 	constexpr std::size_t array_size() const noexcept
 	{ return is_array() ? std::get<array_type>(_value).size() : 0; }
-
-	constexpr bool object_has_value(std::string const& key) const noexcept {
-		if (is_object()) {
-			auto const& object = std::get<object_type>(_value);
-
-			return object.find(key) != object.end();
-		}
-
-		return false;
-	}
 
 	template <typename T>
 	std::optional<T> object_value_at(std::string const& key) const noexcept {
@@ -106,6 +93,9 @@ private:
 
 	std::optional<object_type::const_iterator> _find_obj_key(std::string const& key) const noexcept;
 	std::optional<array_type::const_iterator > _find_arr_idx(std::size_t const  idx) const noexcept;
+
+  constexpr bool _is_value() const noexcept
+	{ return std::holds_alternative<token::value_type>(_value) ? std::get<token::value_type>(_value).has_value() : false; }
 };
 
 }

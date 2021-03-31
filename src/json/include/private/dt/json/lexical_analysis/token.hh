@@ -6,9 +6,6 @@
 #include <variant>
 #include <vector>
 
-#include <cassert>
-#include <cstdint>
-
 namespace dt {
 
 enum token_type : unsigned char {

@@ -8,7 +8,7 @@
 namespace dt {
 
 class json_error final : public std::exception {
-  std::string const _msg;
+  std::string const _message;
 
 public:
   json_error(std::string const& id, std::size_t const& line, std::string const& msg) noexcept;

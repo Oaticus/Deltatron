@@ -9,24 +9,6 @@ dt::json_container::~json_container() noexcept {}
 dt::json_container::json_container(json_container_imp const& container) noexcept
 : _container(container) {}
 
-dt::json_type dt::json_container::type() const noexcept {
-	if (_container.is_object())
-		return json_type::Object;
-
-	if (_container.is_array())
-		return json_type::Array;
-
-	if (_container.is_value())
-		switch (std::get<token::value_type>(_container.value())->index()) {
-			case 0:  return json_type::Bool;
-			case 1:  return json_type::Integer;
-			case 2:  return json_type::Float;
-			case 3:  return json_type::String;
-		}
-
-	return json_type::Null;
-}
-
 bool dt::json_container::is_object() const noexcept { return _container.is_object(); }
 
 bool dt::json_container::is_array() const noexcept { return _container.is_array(); }
@@ -115,4 +97,3 @@ std::optional<dt::json_container> dt::json_container::array_at(std::size_t const
 
 	return std::nullopt;
 }
-

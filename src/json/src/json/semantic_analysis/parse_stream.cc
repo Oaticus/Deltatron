@@ -13,15 +13,15 @@ public:
 private:
 	std::string 			 const& _id;
 	token::stream_type const& _stream;
-	const_pointer 						_head;
 	const_pointer			 const  _end;
+	const_pointer 						_head;
 
 public:
 	parse_state(std::string const& i, token::stream_type const& s) noexcept
 	: _id(i),
 		_stream(s),
-		_head(s.data()),
-		_end(_head + s.size()) {}
+		_end(s.data() + s.size()),
+		_head(s.data()) {}
 
 	constexpr auto operator->() const noexcept { return _head; }
 
@@ -32,8 +32,8 @@ public:
 	constexpr void try_increment()
 	{ ++_head; if (eof()) throw json_error(_id, (_end - 1)->line(), "reached end of file while evaluating json data"); }
 
-	[[noreturn]] void throw_exception(char const* m) const
-	{ throw json_error(_id, eof() ? (_end - 1)->line() : _head->line(), m); }
+	[[noreturn]] void throw_exception(char const* message) const
+	{ throw json_error(_id, eof() ? (_end - 1)->line() : _head->line(), message); }
 };
 
 object_type parse_object(parse_state&);
