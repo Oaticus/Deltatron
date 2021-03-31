@@ -12,22 +12,21 @@ target_include_directories(json
 
 target_sources(json
   PRIVATE
-    "src/json/lexical_analysis/raw_printout.cc"
-
-    "src/json/semantic_analysis/parse_stream.cc"
+    "include/private/dt/json/stream.hh"
+    "src/json/stream/parse_stream.cc"
+    "src/json/stream/create_stream.cc"
 
     "include/public/dt/json/error.hh"
     "src/json/error.cc"
 
     "include/public/dt/json/container.hh"
-    "src/json/container.cc"
+    "src/json/container/container.cc"
 
-    "include/private/dt/json/semantic_analysis/container_imp.hh"
-    "src/json/semantic_analysis/container_imp.cc"
+    "include/private/dt/json/container_imp.hh"
+    "src/json/container/container_imp.cc"
 
-    "include/private/dt/json/semantic_analysis.hh"
-    "include/private/dt/json/lexical_analysis/token.hh"
-    "include/private/dt/json/lexical_analysis.hh"
+    "include/private/dt/json/token.hh"
+
     "include/private/dt/json_imp.hh"
     "include/public/dt/json.hh"
     "src/json.cc")

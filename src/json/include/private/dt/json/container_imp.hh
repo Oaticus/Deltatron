@@ -1,6 +1,6 @@
 #pragma once
 
-#include <dt/json/lexical_analysis/token.hh>
+#include <dt/json/token.hh>
 
 #include <map>
 #include <optional>

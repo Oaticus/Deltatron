@@ -1,5 +1,5 @@
 #include <dt/json/container.hh>
-#include <dt/json/semantic_analysis/container_imp.hh>
+#include <dt/json/container_imp.hh>
 
 #include <optional>
 #include <string>

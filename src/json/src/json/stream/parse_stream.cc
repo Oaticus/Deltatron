@@ -1,5 +1,5 @@
-#include <dt/json/semantic_analysis.hh>
-#include <dt/json/semantic_analysis/container_imp.hh>
+#include <dt/json/stream.hh>
+#include <dt/json/container_imp.hh>
 #include <dt/json/error.hh>
 
 #include <string>
@@ -14,26 +14,26 @@ private:
 	std::string 			 const& _id;
 	token::stream_type const& _stream;
 	const_pointer			 const  _end;
-	const_pointer 						_head;
+	const_pointer 						_current_token;
 
 public:
 	parse_state(std::string const& i, token::stream_type const& s) noexcept
 	: _id(i),
 		_stream(s),
 		_end(s.data() + s.size()),
-		_head(s.data()) {}
+		_current_token(s.data()) {}
 
-	constexpr auto operator->() const noexcept { return _head; }
+	constexpr auto operator->() const noexcept { return _current_token; }
 
-	constexpr auto eof() const noexcept { return _head >= _end; }
+	constexpr auto eof() const noexcept { return _current_token >= _end; }
 
-	constexpr auto distance() const noexcept { return _end - _head; }
+	constexpr auto distance() const noexcept { return _end - _current_token; }
 
 	constexpr void try_increment()
-	{ ++_head; if (eof()) throw json_error(_id, (_end - 1)->line(), "reached end of file while evaluating json data"); }
+	{ ++_current_token; if (eof()) throw json_error(_id, (_end - 1)->line(), "reached end of file while evaluating json data"); }
 
 	[[noreturn]] void throw_exception(char const* message) const
-	{ throw json_error(_id, eof() ? (_end - 1)->line() : _head->line(), message); }
+	{ throw json_error(_id, eof() ? (_end - 1)->line() : _current_token->line(), message); }
 };
 
 object_type parse_object(parse_state&);

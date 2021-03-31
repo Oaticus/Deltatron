@@ -61,7 +61,6 @@ public:
 
     return std::nullopt;
   }
-
 };
 
   constexpr char enum_to_char(token_type const t) noexcept
@@ -69,12 +68,5 @@ public:
 
   constexpr token_type char_to_enum(char const c) noexcept
   { return static_cast<token_type>(c); }
-
-
-namespace dbg {
-
-void raw_printout(token::stream_type const& stream) noexcept;
-
-}
 
 }
