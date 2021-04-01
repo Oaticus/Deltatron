@@ -51,10 +51,9 @@ dt::json_container_imp const* dt::json_container_imp::array_at(std::size_t const
 
 std::optional<dt::object_type::const_iterator> dt::json_container_imp::_find_obj_key(std::string const& key) const noexcept {
 	if (is_object()) {
-		auto const  key_view = std::string_view(key.data(), key.size());
-		auto const& obj 		 = std::get<object_type>(_value);
+		auto const& obj = std::get<object_type>(_value);
 
-		if (auto const obj_iter = obj.find(key_view); obj_iter != obj.end())
+		if (auto const obj_iter = obj.find(key); obj_iter != obj.end())
 			return obj_iter;
 	}
 

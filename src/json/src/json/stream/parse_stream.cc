@@ -92,7 +92,7 @@ object_type parse_object(parse_state& state) {
 		if (!state->has_type(token_type::String))
 			state.throw_exception("expected end of object or object value key");
 
-		auto const key = state->value_as<std::string_view>().value();
+		auto const key = state->value_as<std::string>().value();
 
 		state.try_increment();
 

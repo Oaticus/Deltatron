@@ -4,7 +4,6 @@
 
 #include <optional>
 #include <string>
-#include <string_view>
 
 #include <cstdint>
 
@@ -30,9 +29,6 @@ public:
 	bool is_float()   const noexcept;
 	bool is_bool()    const noexcept;
 	bool is_null()    const noexcept;
-
-	std::optional<std::string_view> string_view_at(std::string const& key) const noexcept;
-	std::optional<std::string_view> string_view_at(std::size_t const& idx) const noexcept;
 
 	std::optional<std::string> string_at(std::string const& key) const noexcept;
 	std::optional<std::string> string_at(std::size_t const& idx) const noexcept;

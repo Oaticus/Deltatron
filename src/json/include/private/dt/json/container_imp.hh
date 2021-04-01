@@ -12,7 +12,7 @@ namespace dt {
 
 class json_container_imp;
 
-using object_type = std::map<std::string_view, json_container_imp>;
+using object_type = std::map<std::string, json_container_imp>;
 using array_type  = std::vector<json_container_imp>;
 
 enum class container_type : unsigned char {
@@ -38,7 +38,7 @@ public:
 	constexpr bool is_array()  const noexcept { return std::holds_alternative<array_type >(_value); }
 
   constexpr bool is_string_value() const noexcept
-	{ return _is_value() ? std::holds_alternative<std::string_view>(*std::get<token::value_type>(_value)) : false; }
+	{ return _is_value() ? std::holds_alternative<std::string>(*std::get<token::value_type>(_value)) : false; }
 
   constexpr bool is_integer_value() const noexcept
 	{ return _is_value() ? std::holds_alternative<int>(*std::get<token::value_type>(_value)) : false; }

@@ -33,24 +33,11 @@ std::size_t dt::json_container::size() const noexcept {
 	return 0;
 }
 
-std::optional<std::string_view> dt::json_container::string_view_at(std::string const& key) const noexcept
-{ return _container.object_value_at<std::string_view>(key); }
+std::optional<std::string> dt::json_container::string_at(std::string const& key) const noexcept
+{ return _container.object_value_at<std::string>(key); }
 
-std::optional<std::string_view> dt::json_container::string_view_at(std::size_t const& idx) const noexcept
-{ return _container.array_value_at<std::string_view>(idx); }
-
-std::optional<std::string> dt::json_container::string_at(std::string const& key) const noexcept {
-	if (auto const opt_strv = string_view_at(key); opt_strv)
-		return std::string(opt_strv->data(), opt_strv->size());
-
-	return std::nullopt;
-}
-std::optional<std::string> dt::json_container::string_at(std::size_t const& idx) const noexcept {
-	if (auto const opt_strv = string_view_at(idx); opt_strv)
-		return std::string(opt_strv->data(), opt_strv->size());
-
-	return std::nullopt;
-}
+std::optional<std::string> dt::json_container::string_at(std::size_t const& idx) const noexcept
+{ return _container.array_value_at<std::string>(idx); }
 
 std::optional<bool> dt::json_container::bool_at(std::string const& key) const noexcept
 { return _container.object_value_at<bool>(key); }

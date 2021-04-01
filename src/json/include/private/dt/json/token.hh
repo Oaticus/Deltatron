@@ -2,7 +2,6 @@
 
 #include <optional>
 #include <string>
-#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -25,7 +24,7 @@ enum token_type : unsigned char {
 
 class token final {
 public:
-  using value_type  = std::optional<std::variant<bool, int, float, std::string_view>>;
+  using value_type  = std::optional<std::variant<bool, int, float, std::string>>;
   using stream_type = std::vector<token>;
 
 private:
@@ -34,24 +33,17 @@ private:
   value_type  const _value;
 
 public:
-  constexpr token(token_type const type, std::size_t const line, value_type const value = std::nullopt) noexcept
-  : _type(type),
-    _line(line),
-    _value(value) {}
+  token(token_type const type, std::size_t const line, value_type const value = std::nullopt) noexcept;
 
   constexpr bool has_value() const noexcept { return _value.has_value(); }
 
-  constexpr bool has_type(token_type const type) const noexcept
-  { return _type == type; }
+  constexpr bool has_type(token_type const type) const noexcept { return _type == type; }
 
-  constexpr token_type type() const noexcept
-  { return _type; }
+  constexpr token_type type() const noexcept { return _type; }
 
-  constexpr std::size_t line() const noexcept
-  { return _line; }
+  constexpr std::size_t line() const noexcept { return _line; }
 
-  constexpr value_type const& value() const noexcept
-  { return _value; }
+  constexpr value_type const& value() const noexcept { return _value; }
 
   template <typename T>
   std::optional<T>

@@ -26,6 +26,7 @@ target_sources(json
     "src/json/container/container_imp.cc"
 
     "include/private/dt/json/token.hh"
+    "src/json/token.cc"
 
     "include/private/dt/json_imp.hh"
     "include/public/dt/json.hh"
