@@ -46,19 +46,18 @@ public:
   constexpr value_type const& value() const noexcept { return _value; }
 
   template <typename T>
-  std::optional<T>
-  value_as() const noexcept {
-    if (_value && std::holds_alternative<T>(*_value))
+  std::optional<T> value_as() const noexcept {
+    if (_value.has_value() && std::holds_alternative<T>(*_value))
       return std::get<T>(*_value);
 
     return std::nullopt;
   }
 };
 
-  constexpr char enum_to_char(token_type const t) noexcept
-  { return static_cast<char>(t); }
+constexpr char enum_to_char(token_type const& t) noexcept
+{ return static_cast<char>(t); }
 
-  constexpr token_type char_to_enum(char const c) noexcept
-  { return static_cast<token_type>(c); }
+constexpr token_type char_to_enum(char const& c) noexcept
+{ return static_cast<token_type>(c); }
 
 }
