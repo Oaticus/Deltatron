@@ -36,6 +36,16 @@ public:
   constexpr std::uint32_t& line() noexcept { return _line; }
 
   constexpr std::string const& id() const noexcept { return _id; }
+
+  constexpr void skip_whitespace() noexcept {
+    do {
+      ++_current_char;
+
+      if (*_current_char == '\n')
+        ++_line;
+
+    } while (!eof() && *_current_char <= ' ');
+  }
 };
 
 constexpr bool is_numerical_char(char const c)noexcept
@@ -124,9 +134,7 @@ std::optional<float> is_float(lexer_state& state) noexcept {
   return float_value;
 }
 
-
-
-constexpr bool is_true(lexer_state& state) noexcept {
+bool is_true(lexer_state& state) noexcept {
   bool const b = state.current_char() + 3 <= state.end()
     && *(state.current_char() + 0) == 't'
     && *(state.current_char() + 1) == 'r'
@@ -136,7 +144,7 @@ constexpr bool is_true(lexer_state& state) noexcept {
   return b ? state.current_char() += 3, b : b;
 }
 
-constexpr bool is_false(lexer_state& state) noexcept {
+bool is_false(lexer_state& state) noexcept {
   bool const b = state.current_char() + 4 <= state.end()
     && *(state.current_char() + 0) == 'f'
     && *(state.current_char() + 1) == 'a'
@@ -147,7 +155,7 @@ constexpr bool is_false(lexer_state& state) noexcept {
   return b ? state.current_char() += 4, b : b;
 }
 
-constexpr bool is_null(lexer_state& state) noexcept {
+bool is_null(lexer_state& state) noexcept {
   bool const b = state.current_char() + 3 <= state.end()
     && *(state.current_char() + 0) == 'n'
     && *(state.current_char() + 1) == 'u'
@@ -157,38 +165,75 @@ constexpr bool is_null(lexer_state& state) noexcept {
   return b ? state.current_char() += 3, b : b;
 }
 
-  void append_token(lexer_state& state, token::stream_type& stream) {
-    if (auto const opt_token = is_char_token(state); opt_token)
-      stream.push_back({*opt_token, state.line()});
+void ignore_comment(lexer_state& state) noexcept {
+  if (state.current_char() > state.end() - 2 || *state.current_char() != '/' || *(state.current_char() + 1) != '/')
+    return;
 
-    else if (auto const opt_string = is_string(state); opt_string)
-      stream.push_back({token_type::String, state.line(), *opt_string});
+  state.current_char() += 2;
 
-    else if (auto const opt_integer = is_integer(state); opt_integer)
-      stream.push_back({token_type::Integer, state.line(), *opt_integer});
+  for (; !state.eof(); ++state.current_char())
+    if (*state.current_char() == '\n')
+      break;
 
-    else if (auto const opt_float = is_float(state); opt_float)
-      stream.push_back({token_type::Float, state.line(), *opt_float});
-
-    else if (auto const is_true_kwd = is_true(state); is_true_kwd)
-      stream.push_back({token_type::Bool, state.line(), true});
-
-    else if (auto const is_false_kwd = is_false(state); is_false_kwd)
-      stream.push_back({token_type::Bool, state.line(), false});
-
-    else if (auto const is_null_kwd = is_null(state); is_null_kwd)
-      stream.push_back({token_type::Null, state.line()});
-
-    else
-      throw json_error(state.id(), state.line(), "unknown character sequence encountered");
+  if (!state.eof()) {
+    ++state.line();
+    state.skip_whitespace();
   }
+}
+
+std::optional<std::string> is_comment(lexer_state& state) noexcept {
+  if (state.current_char() > state.end() - 2 || *state.current_char() != '/' || *(state.current_char() + 1) != '/')
+    return std::nullopt;
+
+  auto const string_start = state.current_char();
+  auto       string_end   = state.current_char() + 2;
+
+  for (; string_end < state.end(); ++string_end)
+    if (*string_end == '\n')
+      break;
+
+  if (string_end < state.end())
+    ++string_end;
+
+  state.current_char() = string_end;
+
+  return std::string(string_start, static_cast<std::string::size_type>(string_end - string_start));
+}
+
+void append_token(lexer_state& state, token::stream_type& stream) {
+  ignore_comment(state);
+
+  if (auto const opt_token = is_char_token(state); opt_token)
+    stream.push_back({*opt_token, state.line()});
+
+  else if (auto const opt_string = is_string(state); opt_string)
+    stream.push_back({token_type::String, state.line(), *opt_string});
+
+  else if (auto const opt_integer = is_integer(state); opt_integer)
+    stream.push_back({token_type::Integer, state.line(), *opt_integer});
+
+  else if (auto const opt_float = is_float(state); opt_float)
+    stream.push_back({token_type::Float, state.line(), *opt_float});
+
+  else if (auto const is_true_kwd = is_true(state); is_true_kwd)
+    stream.push_back({token_type::Bool, state.line(), true});
+
+  else if (auto const is_false_kwd = is_false(state); is_false_kwd)
+    stream.push_back({token_type::Bool, state.line(), false});
+
+  else if (auto const is_null_kwd = is_null(state); is_null_kwd)
+    stream.push_back({token_type::Null, state.line()});
+
+  else
+    throw json_error(state.id(), state.line(), "unknown character sequence encountered");
+}
 
 }
 
 dt::token::stream_type dt::create_stream(std::string const& id, std::string const& text_data) {
   auto stream = token::stream_type{};
 
-  for (auto state = lexer_state(id, text_data); state.eof();)
+  for (auto state = lexer_state(id, text_data); !state.eof(); state.skip_whitespace())
     append_token(state, stream);
 
   return stream;
