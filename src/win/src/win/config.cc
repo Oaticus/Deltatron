@@ -4,8 +4,6 @@
 #include <dt/fs.hh>
 #include <dt/json.hh>
 
-
-
 dt::win_config::win_config(cmd const&, fs const& f)
 : _window_is_fullscreen(false),
   _window_width(800),
@@ -31,13 +29,14 @@ dt::win_config::win_config(cmd const&, fs const& f)
 dt::win_config::~win_config() noexcept {}
 
 void dt::win_config::_write_default_data(std::string const& config_file_name, directory const& config_directory) const {
-  static char const* const default_data =
+  constexpr static char const* const default_data =
+    "// Deltatron window configuration\n"
     "{\n"
     "  \"name\" : \"Deltatron\",\n"
     "  \"fullscreen\" : false,\n"
     "  \"width\" : 800,\n"
     "  \"height\" : 600\n"
-    "}\n";
+    "}";
 
   config_directory.write_file(config_file_name, default_data);
 }

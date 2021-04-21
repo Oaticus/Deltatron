@@ -1,5 +1,7 @@
 #pragma once
 
+#include <dt/render/config.hh>
+
 #include <dt/render/gpu/util/result_to_string.hh>
 #include <dt/render/error.hh>
 
@@ -11,17 +13,17 @@
 namespace dt {
 
 class gpu_vk_physical_devices final {
-  std::vector<VkPhysicalDevice>           const _physical_devices;
-  std::vector<VkPhysicalDeviceProperties> const _physical_device_properties;
-  std::uint32_t                           const _chosen_physical_device_idx;
+  std::vector<VkPhysicalDevice>           const  _physical_devices;
+  std::vector<VkPhysicalDeviceProperties> const  _physical_device_properties;
+  std::uint32_t                           const  _chosen_physical_device_idx;
 
 public:
-  gpu_vk_physical_devices(VkInstance const& instance)
+  gpu_vk_physical_devices(render_config& config, VkInstance const& instance)
   : _physical_devices(_get_physical_devices(instance)),
     _physical_device_properties(_get_physical_device_properties()),
-    _chosen_physical_device_idx(_choose_physical_device()) {}
+    _chosen_physical_device_idx(_choose_physical_device(config)) {}
 
-  constexpr auto const& list() const noexcept { return _physical_devices; }
+  constexpr auto const& view() const noexcept { return _physical_devices; }
 
   std::vector<VkPhysicalDevice> _get_physical_devices(VkInstance const& instance) const {
     auto count            = _get_physical_device_count(instance);
@@ -40,7 +42,7 @@ public:
       throw render_error("could not obtain physical device count: " + vk_result_to_string(result));
 
     if (count == 0)
-      throw render_error("could not find suitable gpu device");
+      throw render_error("could not find physical device with vulkan support");
 
     return count;
   }
@@ -55,7 +57,14 @@ public:
     return physical_device_properties;
   }
 
-  std::uint32_t _choose_physical_device() const noexcept {
+  std::uint32_t _choose_physical_device(render_config& config) {
+    if (int const user_index = config.physical_device_index(); user_index != 0) {
+      if (user_index >= _physical_devices.size())
+        throw render_error("device index provided by config file is out of range");
+
+      return static_cast<std::uint32_t>(user_index);
+    }
+
     auto device_scores = std::vector<std::uint32_t>(_physical_devices.size());
     auto current_idx   = std::uint32_t{};
 
@@ -72,7 +81,11 @@ public:
       ++current_idx;
     }
 
-    return *std::max_element(device_scores.begin(), device_scores.end());
+    auto const chosen_index = *std::max_element(device_scores.begin(), device_scores.end());
+
+    config.physical_device_index(static_cast<int>(chosen_index));
+
+    return chosen_index;
   }
 
 };

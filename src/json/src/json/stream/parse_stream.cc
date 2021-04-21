@@ -23,14 +23,16 @@ public:
 		_end(s.data() + s.size()),
 		_current_token(s.data()) {}
 
-	constexpr auto operator->() const noexcept { return _current_token; }
+	constexpr auto operator->() const noexcept { return _current_token;         }
+	constexpr auto eof()        const noexcept { return _current_token >= _end; }
+	constexpr auto distance()   const noexcept { return _end - _current_token;  }
 
-	constexpr auto eof() const noexcept { return _current_token >= _end; }
+	constexpr void try_increment() {
+    ++_current_token;
 
-	constexpr auto distance() const noexcept { return _end - _current_token; }
-
-	constexpr void try_increment()
-	{ ++_current_token; if (eof()) throw json_error(_id, (_end - 1)->line(), "reached end of file while evaluating json data"); }
+    if (eof())
+      throw json_error(_id, (_end - 1)->line(), "reached end of file while evaluating json data");
+  }
 
 	[[noreturn]] void throw_exception(char const* message) const
 	{ throw json_error(_id, eof() ? (_end - 1)->line() : _current_token->line(), message); }

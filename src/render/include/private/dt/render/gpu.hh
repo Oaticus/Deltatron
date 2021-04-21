@@ -3,6 +3,8 @@
 #include <dt/render/gpu/instance.hh>
 #include <dt/render/gpu/physical_devices.hh>
 
+#include <dt/render/config.hh>
+
 namespace dt {
 
 class gpu final {
@@ -10,9 +12,9 @@ class gpu final {
   gpu_vk_physical_devices const _physical_devices;
 
 public:
-  gpu()
-  : _instance(),
-    _physical_devices(_instance.instance()) {}
+  gpu(render_config& config)
+  : _instance(config),
+    _physical_devices(config, _instance.instance()) {}
 };
 
 }

@@ -27,8 +27,8 @@ target_sources(win
       "include/private/dt/win/win32/window_class.hh"
       "src/win/win32/window_class.cc"
 
-      "include/private/dt/win/win32/proc.hh"
-      "src/win/win32/proc.cc"
+      "include/private/dt/win/win32/window_proc.hh"
+      "src/win/win32/window_proc.cc"
 
       "include/private/dt/win_imp.win32.hh"
       "src/win.win32.cc"

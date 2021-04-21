@@ -30,16 +30,19 @@ public:
 private:
   token_type  const _type;
   std::size_t const _line;
+  std::size_t const _index;
   value_type  const _value;
 
 public:
-  token(token_type const type, std::size_t const line, value_type const value = std::nullopt) noexcept;
+  token(token_type const type, std::size_t const line, std::size_t const index, value_type const value = std::nullopt) noexcept;
 
   constexpr bool has_value() const noexcept { return _value.has_value(); }
 
   constexpr bool has_type(token_type const type) const noexcept { return _type == type; }
 
   constexpr token_type type() const noexcept { return _type; }
+
+  constexpr std::size_t index() const noexcept { return _index; }
 
   constexpr std::size_t line() const noexcept { return _line; }
 

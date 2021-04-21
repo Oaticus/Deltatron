@@ -15,6 +15,8 @@ target_sources(json
     "include/private/dt/json/stream.hh"
     "src/json/stream/parse_stream.cc"
     "src/json/stream/create_stream.cc"
+    "src/json/stream/to_string.cc"
+    "src/json/stream/json_stream.cc"
 
     "include/public/dt/json/error.hh"
     "src/json/error.cc"
@@ -24,6 +26,9 @@ target_sources(json
 
     "include/private/dt/json/container_imp.hh"
     "src/json/container/container_imp.cc"
+
+    "include/private/dt/json/comment.hh"
+    "src/json/comment.cc"
 
     "include/private/dt/json/token.hh"
     "src/json/token.cc"

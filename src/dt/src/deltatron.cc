@@ -5,13 +5,11 @@
 dt::deltatron::deltatron(int const ac, char const* const* const av, char const* const* const ep)
 : _cmd(ac, av, ep),
   _fs(_cmd),
-  _render(),
+  _render(_cmd, _fs),
   _win(_cmd, _fs) {}
 
 dt::deltatron::~deltatron() noexcept {}
 
 void dt::deltatron::run() const {
-  auto win_thread = std::thread([&] { _win.run(); });
-
-  win_thread.join();
+  std::thread([this] { _win.run(); }).join();
 }

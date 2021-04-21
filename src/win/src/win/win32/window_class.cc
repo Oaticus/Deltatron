@@ -1,5 +1,5 @@
 #include <dt/win/win32/window_class.hh>
-#include <dt/win/win32/proc.hh>
+#include <dt/win/win32/window_proc.hh>
 
 dt::win32_window_class::win32_window_class(HINSTANCE const& program_instance)
 : _window_class_name((wchar_t const*)"Win32 Deltatron Window Class"),

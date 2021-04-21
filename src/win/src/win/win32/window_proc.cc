@@ -1,13 +1,13 @@
-#include <dt/win/win32/proc.hh>
+#include <dt/win/win32/window_proc.hh>
 
 #include <Windows.h>
 
 static void _dt_win32_do_paint(HWND const& window_handle) noexcept {
-  auto paint_struct = PAINTSTRUCT{};
-  HDC device_handle = BeginPaint(window_handle, &paint_struct);
+  auto paint_data    = PAINTSTRUCT{};
+  auto device_handle = BeginPaint(window_handle, &paint_data);
 
-  FillRect(device_handle, &paint_struct.rcPaint, (HBRUSH)(COLOR_WINDOW+1));
-  EndPaint(window_handle, &paint_struct);
+  FillRect(device_handle, &paint_data.rcPaint, CreateSolidBrush(RGB(50, 0, 100)));
+  EndPaint(window_handle, &paint_data);
 }
 
 extern "C" LRESULT CALLBACK _dt_win32_window_proc(HWND window_handle, UINT message, WPARAM w_param, LPARAM l_param) noexcept {

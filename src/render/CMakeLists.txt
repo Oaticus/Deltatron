@@ -3,6 +3,9 @@ add_library("render")
 target_link_libraries(render
   PRIVATE
     buildinfo
+    cmd
+    fs
+    json
     Vulkan::Vulkan)
 
 target_include_directories(render
@@ -22,6 +25,9 @@ target_sources(render
     "include/private/dt/render/gpu/physical_devices.hh"
     "include/private/dt/render/gpu/instance.hh"
     "include/private/dt/render/gpu.hh"
+
+    "include/private/dt/render/config.hh"
+    "src/render/config.cc"
 
     "include/private/dt/render_imp.hh"
     "include/public/dt/render.hh"

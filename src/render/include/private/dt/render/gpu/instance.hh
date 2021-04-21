@@ -3,6 +3,8 @@
 #include <dt/render/error.hh>
 #include <dt/render/gpu/util/result_to_string.hh>
 
+#include <dt/render/config.hh>
+
 #include <vulkan/vulkan.h>
 
 #include <string>
@@ -17,7 +19,7 @@ class gpu_vk_instance final {
   VkInstance           const _instance;
 
 public:
-  gpu_vk_instance()
+  gpu_vk_instance(render_config const& config)
   : _app_name("Deltatron"),
     _engine_name("delta_engine"),
     _app_info(_create_app_info()),
