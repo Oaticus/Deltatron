@@ -1,7 +1,7 @@
 #pragma once
 
-#include <dt/cmd.hh>
-#include <dt/fs.hh>
+#include <dt/command.hh>
+#include <dt/filesystem.hh>
 
 #include <memory>
 
@@ -13,7 +13,7 @@ class render final {
   std::unique_ptr<render_imp> const _render;
 
 public:
-  render(cmd const&, fs const&);
+  render(command const&, filesystem const&);
 
   ~render() noexcept;
 };

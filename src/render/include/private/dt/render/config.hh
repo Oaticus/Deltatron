@@ -1,17 +1,23 @@
 #pragma once
 
-#include <dt/cmd.hh>
-#include <dt/fs.hh>
+#include <dt/command.hh>
+#include <dt/filesystem.hh>
 #include <dt/json.hh>
 
+#include <string>
+#include <vector>
+
+#include <cstdint> // std::uint32_t
 
 namespace dt {
 
 class render_config final {
   struct _render_config_values final {
-    int physical_device_index;
-    int vulkan_version_major;
-    int vulkan_version_minor;
+    std::uint32_t            physical_device_index;
+    std::uint32_t            version_major;
+    std::uint32_t            version_minor;
+    std::vector<std::string> enabled_extension_names;
+    std::vector<std::string> enabled_layer_names;
   };
 
   directory             const _config_directory;
@@ -19,9 +25,8 @@ class render_config final {
   json                        _config_data;
   _render_config_values       _config_values;
 
-
 public:
-  render_config(cmd const&, fs const& f);
+  render_config(command const&, filesystem const&);
 
   render_config(render_config&) = delete;
 
@@ -35,24 +40,13 @@ public:
 
   constexpr auto physical_device_index() const noexcept { return _config_values.physical_device_index; }
 
-  constexpr auto vulkan_version_major() const noexcept { return _config_values.vulkan_version_major; }
+  constexpr auto vulkan_version_major() const noexcept { return _config_values.version_major; }
 
-  constexpr auto vulkan_version_minor() const noexcept { return _config_values.vulkan_version_minor; }
+  constexpr auto vulkan_version_minor() const noexcept { return _config_values.version_minor; }
 
-  constexpr render_config& physical_device_index(int index) noexcept {
-    _config_values.physical_device_index = index;
-    return *this;
-  }
+  std::vector<std::string::pointer> vulkan_enabled_extension_names() noexcept;
 
-  constexpr render_config& vulkan_version_major(int const version_major) noexcept {
-    _config_values.vulkan_version_major = version_major;
-    return *this;
-  }
-
-  constexpr render_config& vulkan_version_minor(int const version_minor) noexcept {
-    _config_values.vulkan_version_minor = version_minor;
-    return *this;
-  }
+  std::vector<std::string::pointer> vulkan_enabled_layer_names() noexcept;
 
 private:
   _render_config_values _get_config_values() const;

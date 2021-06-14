@@ -1,11 +1,13 @@
+add_subdirectory("math")
+
 add_subdirectory("json")
 
-add_subdirectory("cmd")
+add_subdirectory("command")
 
-add_subdirectory("fs")
+add_subdirectory("filesystem")
 
-add_subdirectory("win")
+add_subdirectory("window")
 
 add_subdirectory("render")
 
-add_subdirectory("dt")
+add_subdirectory("deltatron")

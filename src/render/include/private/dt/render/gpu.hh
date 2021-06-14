@@ -14,7 +14,10 @@ class gpu final {
 public:
   gpu(render_config& config)
   : _instance(config),
-    _physical_devices(config, _instance.instance()) {}
+    _physical_devices(_instance.instance()) {
+
+
+    }
 };
 
 }

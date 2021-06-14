@@ -19,6 +19,10 @@ public:
   ~json() noexcept;
 
   json_container root() const noexcept;
+
+  std::string str() const noexcept;
+
+  std::string fast_str() const noexcept;
 };
 
 }
