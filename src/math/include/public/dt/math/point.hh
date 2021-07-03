@@ -260,8 +260,8 @@ constexpr auto operator>>(std::istream& is, basic_z_type<T>& z) noexcept -> std:
 template <typename T>
 class basic_xy_type final {
 public:
-  using x_type = T;
-  using y_type = T;
+  using x_type = basic_x_type<T>;
+  using y_type = basic_y_type<T>;
 
   struct initializer final {
     x_type const x;
@@ -289,6 +289,9 @@ public:
 
   constexpr auto x() const noexcept -> x_type const& { return _x; }
   constexpr auto y() const noexcept -> y_type const& { return _y; }
+
+  constexpr auto xy() const noexcept -> basic_xy_type { return *this; }
+  constexpr auto yx() const noexcept -> basic_xy_type { return {{.x = _y.value(), .y = _x.value()}}; }
 
   constexpr auto operator==(basic_xy_type const& xy) const noexcept -> bool
   { return _x == xy._x && _y == xy._y; }
@@ -347,59 +350,62 @@ public:
 
   struct initializer final {
     x_type const x;
-    z_type const y;
+    z_type const z;
   };
 
 private:
   x_type _x;
-  z_type _y;
+  z_type _z;
 
 public:
   constexpr basic_xz_type() noexcept
   : _x{},
-    _y{} {}
+    _z{} {}
 
   constexpr basic_xz_type(initializer const init) noexcept
   : _x(init.x),
-    _y(init.y) {}
+    _z(init.z) {}
 
-  constexpr basic_xz_type(basic_xz_type const& xy) noexcept
-  : _x(xy._x),
-    _y(xy._y) {}
+  constexpr basic_xz_type(basic_xz_type const& xz) noexcept
+  : _x(xz._x),
+    _z(xz._z) {}
 
   constexpr ~basic_xz_type() noexcept {}
 
   constexpr auto x() const noexcept -> x_type const& { return _x; }
   constexpr auto z() const noexcept -> z_type const& { return _z; }
 
-  constexpr auto operator==(basic_xz_type const& xy) const noexcept -> bool
-  { return _x == xy._x && _y == xy._y; }
+  constexpr auto xz() const noexcept -> basic_xz_type { return *this; }
+  constexpr auto zx() const noexcept -> basic_xz_type { return {{.x = _z.value(), .z = _x.value()}}; }
 
-  constexpr auto operator<(basic_xz_type const& xy) const noexcept -> bool
-  { return _x < xy._x && _y < xy._y; }
+  constexpr auto operator==(basic_xz_type const& xz) const noexcept -> bool
+  { return _x == xz._x && _z == xz._z; }
 
-  constexpr auto operator!=(basic_xz_type const& xy) const noexcept -> bool { return !operator==(xy); }
-  constexpr auto operator>=(basic_xz_type const& xy) const noexcept -> bool { return !operator< (xy); }
-  constexpr auto operator<=(basic_xz_type const& xy) const noexcept -> bool { return  operator< (xy) &&  operator==(xy); }
-  constexpr auto operator> (basic_xz_type const& xy) const noexcept -> bool { return !operator==(xy) && !operator< (xy); }
+  constexpr auto operator<(basic_xz_type const& xz) const noexcept -> bool
+  { return _x < xz._x && _z < xz._z; }
 
-  constexpr auto operator=(basic_xz_type const& xy) const noexcept -> basic_xz_type&
-  { if (this != &xy) { _x = xy._x; _y = xy._y; } return *this; }
+  constexpr auto operator!=(basic_xz_type const& xz) const noexcept -> bool { return !operator==(xz); }
+  constexpr auto operator>=(basic_xz_type const& xz) const noexcept -> bool { return !operator< (xz); }
+  constexpr auto operator<=(basic_xz_type const& xz) const noexcept -> bool { return  operator< (xz) &&  operator==(xz); }
+  constexpr auto operator> (basic_xz_type const& xz) const noexcept -> bool { return !operator==(xz) && !operator< (xz); }
 
-  constexpr auto operator+=(basic_xz_type const& xy) const noexcept -> basic_xz_type&
-  { _x += xy._x; _y += xy._y; return *this; }
+  constexpr auto operator=(basic_xz_type const& xz) const noexcept -> basic_xz_type&
+  { if (this != &xz) { _x = xz._x; _z = xz._z; } return *this; }
 
-  constexpr auto operator-=(basic_xz_type const& xy) const noexcept -> basic_xz_type&
-  { _x -= xy._x; _y -= xy._y; return *this; }
+  constexpr auto operator+=(basic_xz_type const& xz) const noexcept -> basic_xz_type&
+  { _x += xz._x; _z += xz._z; return *this; }
 
-  constexpr auto operator*=(basic_xz_type const& xy) const noexcept -> basic_xz_type&
-  { _x *= xy._x; _y *= xy._y; return *this; }
+  constexpr auto operator-=(basic_xz_type const& xz) const noexcept -> basic_xz_type&
+  { _x -= xz._x; _z -= xz._z; return *this; }
 
-  constexpr auto operator/=(basic_xz_type const& xy) const noexcept -> basic_xz_type&
-  { _x /= xy._x; _y /= xy._y; return *this; }
+  constexpr auto operator*=(basic_xz_type const& xz) const noexcept -> basic_xz_type&
+  { _x *= xz._x; _z *= xz._z; return *this; }
 
-  constexpr auto operator++() const noexcept -> basic_xz_type& { ++_x; ++_y; return *this; }
-  constexpr auto operator--() const noexcept -> basic_xz_type& { --_x; --_y; return *this; }
+  constexpr auto operator/=(basic_xz_type const& xz) const noexcept -> basic_xz_type&
+  { _x /= xz._x; _z /= xz._z; return *this; }
+
+  constexpr auto operator++() const noexcept -> basic_xz_type& { ++_x; ++_z; return *this; }
+  constexpr auto operator--() const noexcept -> basic_xz_type& { --_x; --_z; return *this; }
 
   constexpr auto operator++(int) const noexcept -> basic_xz_type { auto old = *this; operator++(); return old; }
   constexpr auto operator--(int) const noexcept -> basic_xz_type { auto old = *this; operator--(); return old; }
@@ -407,19 +413,19 @@ public:
 
 template <typename T>
 constexpr auto operator+(basic_xz_type<T> const lhs, basic_xz_type<T> const& rhs) noexcept -> basic_xz_type<T>
-{ return {{.x = lhs.x() + rhs.x(), .y = lhs.z() + rhs.z()}}; }
+{ return {{.x = lhs.x() + rhs.x(), .z = lhs.z() + rhs.z()}}; }
 
 template <typename T>
 constexpr auto operator-(basic_xz_type<T> const lhs, basic_xz_type<T> const& rhs) noexcept -> basic_xz_type<T>
-{ return {{.x = lhs.x() - rhs.x(), .y = lhs.z() - rhs.z()}}; }
+{ return {{.x = lhs.x() - rhs.x(), .z = lhs.z() - rhs.z()}}; }
 
 template <typename T>
 constexpr auto operator*(basic_xz_type<T> const lhs, basic_xz_type<T> const& rhs) noexcept -> basic_xz_type<T>
-{ return {{.x = lhs.x() * rhs.x(), .y = lhs.z() * rhs.z()}}; }
+{ return {{.x = lhs.x() * rhs.x(), .z = lhs.z() * rhs.z()}}; }
 
 template <typename T>
 constexpr auto operator/(basic_xz_type<T> const lhs, basic_xz_type<T> const& rhs) noexcept -> basic_xz_type<T>
-{ return {{.x = lhs.x() / rhs.x(), .y = lhs.z() / rhs.z()}}; }
+{ return {{.x = lhs.x() / rhs.x(), .z = lhs.z() / rhs.z()}}; }
 
 template <typename T>
 class basic_yz_type final {
@@ -439,23 +445,23 @@ private:
 public:
   constexpr basic_yz_type() noexcept
   : _y{},
-    _y{} {}
+    _z{} {}
 
   constexpr basic_yz_type(initializer const init) noexcept
   : _y(init.y),
-    _y(init.y) {}
+    _z(init.z) {}
 
   constexpr basic_yz_type(basic_yz_type const& yz) noexcept
   : _y(yz._y),
-    _y(yz._y) {}
+    _z(yz._z) {}
 
   constexpr ~basic_yz_type() noexcept {}
 
   constexpr auto y() const noexcept -> y_type const& { return _y; }
-  constexpr auto z() const noexcept -> x_type const& { return _z; }
+  constexpr auto z() const noexcept -> z_type const& { return _z; }
 
-  constexpr auto yz() const noexcept -> basic_yz_type -> { return *this; }
-  constexpr auto zy() const noexcept -> basic_yz_type -> { return {{.y = _z.value(), .z = _y.value()}}; }
+  constexpr auto yz() const noexcept -> basic_yz_type { return *this; }
+  constexpr auto zy() const noexcept -> basic_yz_type { return {{.y = _z.value(), .z = _y.value()}}; }
 
   constexpr auto operator==(basic_yz_type const& yz) const noexcept -> bool
   { return _y == yz._y && _z == yz._z; }
@@ -518,9 +524,9 @@ public:
   using yz_type = basic_yz_type<T>;
 
   struct initializer final {
-    T const x;
-    T const y;
-    T const z;
+    x_type const x;
+    y_type const y;
+    z_type const z;
   };
 
 private:
@@ -607,6 +613,118 @@ public:
   { _x /= point._x; _y /= point._y; _z /= point._z; return *this; }
 
 };
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_point_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() + rhs.x(), .y = lhs.y() + rhs.y(), .z = lhs.z() + rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_point_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() - rhs.x(), .y = lhs.y() - rhs.y(), .z = lhs.z() - rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_point_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() * rhs.x(), .y = lhs.y() * rhs.y(), .z = lhs.z() * rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_point_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() / rhs.x(), .y = lhs.y() / rhs.y(), .z = lhs.z() / rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_xy_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() + rhs.x(), .y = lhs.y() + rhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_xy_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() - rhs.x(), .y = lhs.y() - rhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_xy_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() * rhs.x(), .y = lhs.y() * rhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_xy_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() / rhs.x(), .y = lhs.y() / rhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_xz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() + rhs.x(), .y = lhs.y(), .z = lhs.z() + rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_xz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() - rhs.x(), .y = lhs.y(), .z = lhs.z() - rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_xz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() * rhs.x(), .y = lhs.y(), .z = lhs.z() * rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_xz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() / rhs.x(), .y = lhs.y(), .z = lhs.z() / rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_yz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() + rhs.y(), .z = lhs.z() + rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_yz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() - rhs.y(), .z = lhs.z() - rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_yz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() * rhs.y(), .z = lhs.z() * rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_yz_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() / rhs.y(), .z = lhs.z() / rhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_x_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() + rhs, .y = lhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_x_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() - rhs, .y = lhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_x_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() * rhs, .y = lhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_x_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x() / rhs, .y = lhs.y(), .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_y_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() + rhs, .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_y_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() - rhs, .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_y_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() * rhs, .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_y_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y() / rhs, .z = lhs.z()}}; }
+
+template <typename T>
+constexpr auto operator+(basic_point_type<T> const lhs, basic_z_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y(), .z = lhs.z() + rhs}}; }
+
+template <typename T>
+constexpr auto operator-(basic_point_type<T> const lhs, basic_z_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y(), .z = lhs.z() - rhs}}; }
+
+template <typename T>
+constexpr auto operator*(basic_point_type<T> const lhs, basic_z_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y(), .z = lhs.z() * rhs}}; }
+
+template <typename T>
+constexpr auto operator/(basic_point_type<T> const lhs, basic_z_type<T> const rhs) noexcept -> basic_point_type<T>
+{ return {{.x = lhs.x(), .y = lhs.y(), .z = lhs.z() / rhs}}; }
 
 using x_type = basic_x_type<float>;
 using y_type = basic_y_type<float>;
