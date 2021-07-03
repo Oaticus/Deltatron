@@ -7,7 +7,10 @@ target_link_libraries(deltatron
     "filesystem"
     "window"
     "render"
-    "json")
+    "json"
+
+    "math"
+    "yaml")
 
 target_include_directories(deltatron
   PRIVATE

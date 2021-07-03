@@ -1,4 +1,5 @@
 #include <dt/json/stream/parse_stream/parser.hh>
+#include <dt/json/stream/parse_stream/parser/state.hh>
 
 dt::json_object dt::parse_object(parser_state& state) {
   auto new_obj = json_object{};

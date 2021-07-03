@@ -6,10 +6,6 @@
 #include <dt/command.hh>
 #include <dt/filesystem.hh>
 
-#include <dt/math/geometry/plane/axis/z.hh>
-
-#include <iostream>
-
 namespace dt {
 
 class render_imp final {
