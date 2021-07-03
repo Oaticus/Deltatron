@@ -56,36 +56,36 @@ public:
 };
 
 template <typename T>
-constexpr auto operator+(basic_x_type<T> const& xlhs, basic_x_type<T> const& xrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() + xrhs.value(); }
+constexpr auto operator+(basic_x_type<T> const& lhs, basic_x_type<T> const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() + rhs.value(); }
 
 template <typename T>
-constexpr auto operator-(basic_x_type<T> const& xlhs, basic_x_type<T> const& xrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() - xrhs.value(); }
+constexpr auto operator-(basic_x_type<T> const& lhs, basic_x_type<T> const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() - rhs.value(); }
 
 template <typename T>
-constexpr auto operator*(basic_x_type<T> const& xlhs, basic_x_type<T> const& xrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() * xrhs.value(); }
+constexpr auto operator*(basic_x_type<T> const& lhs, basic_x_type<T> const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() * rhs.value(); }
 
 template <typename T>
-constexpr auto operator/(basic_x_type<T> const& xlhs, basic_x_type<T> const& xrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() / xrhs.value(); }
+constexpr auto operator/(basic_x_type<T> const& lhs, basic_x_type<T> const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() / rhs.value(); }
 
 template<typename T>
-constexpr auto operator+(basic_x_type<T> const& xlhs, typename basic_x_type<T>::value_type const& vrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() + vrhs; }
+constexpr auto operator+(basic_x_type<T> const& lhs, typename basic_x_type<T>::value_type const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() + rhs; }
 
 template<typename T>
-constexpr auto operator-(basic_x_type<T> const& xlhs, typename basic_x_type<T>::value_type const& vrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() - vrhs; }
+constexpr auto operator-(basic_x_type<T> const& lhs, typename basic_x_type<T>::value_type const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() - rhs; }
 
 template<typename T>
-constexpr auto operator*(basic_x_type<T> const& xlhs, typename basic_x_type<T>::value_type const& vrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() * vrhs; }
+constexpr auto operator*(basic_x_type<T> const& lhs, typename basic_x_type<T>::value_type const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() * rhs; }
 
 template<typename T>
-constexpr auto operator/(basic_x_type<T> const& xlhs, typename basic_x_type<T>::value_type const& vrhs) noexcept -> basic_x_type<T>
-{ return xlhs.value() / vrhs; }
+constexpr auto operator/(basic_x_type<T> const& lhs, typename basic_x_type<T>::value_type const& rhs) noexcept -> basic_x_type<T>
+{ return lhs.value() / rhs; }
 
 template <typename T>
 constexpr auto operator>>(std::istream& is, basic_x_type<T>& x) noexcept -> std::istream&
@@ -141,41 +141,40 @@ public:
 };
 
 template <typename T>
-constexpr auto operator+(basic_y_type<T> const& ylhs, basic_y_type<T> const& yrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() + yrhs.value(); }
+constexpr auto operator+(basic_y_type<T> const& lhs, basic_y_type<T> const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() + rhs.value(); }
 
 template <typename T>
-constexpr auto operator-(basic_y_type<T> const& ylhs, basic_y_type<T> const& yrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() - yrhs.value(); }
+constexpr auto operator-(basic_y_type<T> const& lhs, basic_y_type<T> const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() - rhs.value(); }
 
 template <typename T>
-constexpr auto operator*(basic_y_type<T> const& ylhs, basic_y_type<T> const& yrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() * yrhs.value(); }
+constexpr auto operator*(basic_y_type<T> const& lhs, basic_y_type<T> const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() * rhs.value(); }
 
 template <typename T>
-constexpr auto operator/(basic_y_type<T> const& ylhs, basic_y_type<T> const& yrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() / yrhs.value(); }
+constexpr auto operator/(basic_y_type<T> const& lhs, basic_y_type<T> const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() / rhs.value(); }
 
 template<typename T>
-constexpr auto operator+(basic_y_type<T> const& ylhs, typename basic_y_type<T>::value_type const& vrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() + vrhs; }
+constexpr auto operator+(basic_y_type<T> const& lhs, typename basic_y_type<T>::value_type const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() + rhs; }
 
 template<typename T>
-constexpr auto operator-(basic_y_type<T> const& ylhs, typename basic_y_type<T>::value_type const& vrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() - vrhs; }
+constexpr auto operator-(basic_y_type<T> const& lhs, typename basic_y_type<T>::value_type const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() - rhs; }
 
 template<typename T>
-constexpr auto operator*(basic_y_type<T> const& ylhs, typename basic_y_type<T>::value_type const& vrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() * vrhs; }
+constexpr auto operator*(basic_y_type<T> const& lhs, typename basic_y_type<T>::value_type const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() * rhs; }
 
 template<typename T>
-constexpr auto operator/(basic_y_type<T> const& ylhs, typename basic_y_type<T>::value_type const& vrhs) noexcept -> basic_y_type<T>
-{ return ylhs.value() / vrhs; }
+constexpr auto operator/(basic_y_type<T> const& lhs, typename basic_y_type<T>::value_type const& rhs) noexcept -> basic_y_type<T>
+{ return lhs.value() / rhs; }
 
 template <typename T>
 constexpr auto operator>>(std::istream& is, basic_y_type<T>& y) noexcept -> std::istream&
 { return is >> y._y; }
-
 
 template <typename T>
 requires std::is_arithmetic_v<T>
@@ -238,20 +237,20 @@ constexpr auto operator/(basic_z_type<T> const lhs, basic_z_type<T> const& rhs) 
 { return lhs.value() / rhs.value(); }
 
 template<typename T>
-constexpr auto operator+(basic_z_type<T> const z, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
-{ return z.value() + rhs; }
+constexpr auto operator+(basic_z_type<T> const lhs, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
+{ return lhs.value() + rhs; }
 
 template<typename T>
-constexpr auto operator-(basic_z_type<T> const z, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
-{ return z.value() - rhs; }
+constexpr auto operator-(basic_z_type<T> const lhs, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
+{ return lhs.value() - rhs; }
 
 template<typename T>
-constexpr auto operator*(basic_z_type<T> const z, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
-{ return z.value() * rhs; }
+constexpr auto operator*(basic_z_type<T> const lhs, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
+{ return lhs.value() * rhs; }
 
 template<typename T>
-constexpr auto operator/(basic_z_type<T> const z, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
-{ return z.value() / rhs; }
+constexpr auto operator/(basic_z_type<T> const lhs, typename basic_z_type<T>::value_type const& rhs) noexcept -> basic_z_type<T>
+{ return lhs.value() / rhs; }
 
 template <typename T>
 constexpr auto operator>>(std::istream& is, basic_z_type<T>& z) noexcept -> std::istream&
